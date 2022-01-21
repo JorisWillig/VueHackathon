@@ -14,17 +14,17 @@ import Dashboard, { DashboardConfig } from '@/components/Dashboard.vue';
 export default class App extends Vue {
 
   dashboardConfig: DashboardConfig = {
-    gridWidth: 15,
-    gridHeight: 15,
+    gridWidth: 60,
+    gridHeight: 40,
     gapSize: 8,
     tiles: [
       {
         tileConfig: {
           id: "tile1",
-          width: 5,
-          height: 5,
+          width: 15,
+          height: 10,
           xPos: 0,
-          yPos: 3,
+          yPos: 0,
         },
         contentComponent: "Red",
         contentData: "Hallo, ik ben rood"
@@ -32,14 +32,25 @@ export default class App extends Vue {
       {
         tileConfig: {
           id: "tile2",
-          width: 5,
-          height: 5,
-          xPos: 10,
-          yPos: 5,
+          width: 15,
+          height: 10,
+          xPos: 15,
+          yPos: 0,
         },
         contentComponent: "Blue",
         contentData: "Maar ik ben blauw"
-      }
+      },
+      {
+        tileConfig: {
+          id: "tile1",
+          width: 30,
+          height: 25,
+          xPos: 30,
+          yPos: 0,
+        },
+        contentComponent: "Red",
+        contentData: "Waaaaaat, ik ben ook rood!"
+      },
     ],
   }
 }

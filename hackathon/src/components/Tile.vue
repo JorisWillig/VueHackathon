@@ -121,6 +121,7 @@ export default class Tile extends Vue {
 .tile {
   position: absolute;
   border: 1px solid black;
+  border-radius: 4px;
 
   .tile-inner {
     position: relative;
@@ -129,7 +130,7 @@ export default class Tile extends Vue {
 
     .handle {
       position: absolute;
-      background-color: green;
+      background-color: #888;
     }
     .top-handle, .bottom-handle {
         width: calc(100% - 16px);
@@ -165,7 +166,7 @@ export default class Tile extends Vue {
 .header {
   width: 100%;
   height: 20px;
-  background-color: Yellow;
+  background-color: #BBB;
 
   cursor: move;
 }
