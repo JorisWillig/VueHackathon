@@ -20,15 +20,15 @@ export default class App extends Vue {
     tiles: [
       {
         id: "tile1",
-        width: 10,
-        height: 15,
+        width: 5,
+        height: 5,
         xPos: 0,
         yPos: 0,
       },
       {
         id: "tile2",
         width: 5,
-        height: 15,
+        height: 5,
         xPos: 10,
         yPos: 0,
       }

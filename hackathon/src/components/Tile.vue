@@ -1,5 +1,10 @@
 <template>
-<div class="tile" :style="style"></div>
+<div class="tile" :style="style">
+  <div class="header"
+    @mousedown="startReposition($event)"
+  ></div>
+  <div class="body"></div>
+</div>
 </template>
 
 <script lang="ts">
@@ -20,7 +25,7 @@ export interface TileConfig {
 export default class Tile extends Vue {
   @Prop() config!: TileConfig;
   @Prop() resizeFunction!: () => {x: number, y: number, width: number, height: number}; // px values
-  @Prop() moveFunction!: () => {x: number, y: number}
+  @Prop() moveFunction!: (startX: number, startY: number, tileWidth: number, tileHeight: number, xOffset: number, yOffset: number) => {x: number, y: number}
   @Prop() gridToPx!: (gridValue: number, axis: Axis) => number;
 
   // Grid values
@@ -28,6 +33,12 @@ export default class Tile extends Vue {
   private y = this.config.yPos;
   private w = this.config.width;
   private h = this.config.height;
+
+  // Repositioning values
+  private mouseClickX = 0;
+  private mouseClickY = 0;
+  private repositionStartX = 0;
+  private repositionStartY = 0;
 
   // pxValues
   private get xPos() {
@@ -54,11 +65,49 @@ export default class Tile extends Vue {
       left: `${this.xPos}px`,
     }
   }
+
+  private startReposition(event: MouseEvent) {
+    this.mouseClickX = event.pageX;
+    this.mouseClickY = event.pageY;
+
+    this.repositionStartX = this.x;
+    this.repositionStartY = this.y;
+
+    document.addEventListener('mousemove', this.reposition);
+    document.addEventListener('mouseup', this.stopReposition);
+  }
+
+  private reposition(event: MouseEvent) {
+    const xOffset = event.pageX - this.mouseClickX;
+    const yOffset = event.pageY - this.mouseClickY;
+    const newPos = this.moveFunction(this.repositionStartX, this.repositionStartY, this.w, this.h, xOffset, yOffset);
+    this.x = newPos.x;
+    this.y = newPos.y;
+  }
+
+  private stopReposition() {
+    document.removeEventListener('mousemove', this.reposition);
+    document.removeEventListener('mouseup', this.stopReposition);
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .tile {
   position: absolute;
+}
+
+.header {
+  width: 100%;
+  height: 20px;
+  background-color: blue;
+
+  cursor: move;
+}
+
+.body {
+  width: 100%;
+  height: calc(100% - 20px);
+  background-color: red;
 }
 </style>
