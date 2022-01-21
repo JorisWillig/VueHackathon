@@ -9,8 +9,7 @@
       <div class="header"
         @mousedown="startReposition($event)"
       ></div>
-      <div class="body"></div>
-      <slot />
+      <div class="body"><slot /></div>
     </div>
   </div>
 </div>
@@ -20,14 +19,7 @@
 import { Axis } from "@/enums/Axis";
 import { ResizeDirection } from "@/enums/ResizeDirection";
 import { Vue, Component, Prop } from "vue-property-decorator";
-
-export interface TileConfig {
-  id: string;
-  width: number;
-  height: number;
-  xPos: number;
-  yPos: number;
-}
+import { TileConfig } from "@/interfaces/Tile";
 
 @Component({
   components: {},
@@ -144,25 +136,28 @@ export default class Tile extends Vue {
         height: 8px;
         cursor: row-resize;
         left: 8px;
-      }
-      .top-handle {
-        top: 0px;
-      }
-      .bottom-handle {
-        bottom: 0px;
-      }
-      .left-handle, .right-handle {
-        width: 8px;
-        height: calc(100% - 16px);
-        top: 8px;
-        cursor: col-resize;
-      }
-      .left-handle {
-        left: 0px;
-      }
-      .right-handle {
-        right: 0px;
-      }
+    }
+    .top-handle {
+      top: 0px;
+    }
+    .bottom-handle {
+      bottom: 0px;
+    }
+    .left-handle, .right-handle {
+      width: 8px;
+      height: calc(100% - 16px);
+      top: 8px;
+      cursor: col-resize;
+    }
+    .left-handle {
+      left: 0px;
+    }
+    .right-handle {
+      right: 0px;
+    }
+    .tile-content {
+      padding: 8px;
+    }
     
   }
 }
@@ -170,14 +165,8 @@ export default class Tile extends Vue {
 .header {
   width: 100%;
   height: 20px;
-  background-color: blue;
+  background-color: Yellow;
 
   cursor: move;
-}
-
-.body {
-  width: 100%;
-  height: calc(100% - 20px);
-  background-color: red;
 }
 </style>

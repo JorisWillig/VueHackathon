@@ -1,25 +1,32 @@
 <template>
 <div class="dashboard" ref="dashboardContainer">
-  <Tile v-for="tile of dashboardConfig.tiles" :key="tile.id" :config="tile" :moveFunction="calculateTilePosition" :gridToPx="gridToPx" :resizeFunction="calculateTileSize"></Tile>
+  <TileComponent v-for="tile of dashboardConfig.tiles" :key="tile.id" :config="tile.tileConfig" :moveFunction="calculateTilePosition" :gridToPx="gridToPx" :resizeFunction="calculateTileSize">
+    <component v-bind:is="tile.contentComponent" :data="tile.contentData"></component>
+  </TileComponent>
 </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import Tile, { TileConfig } from "./Tile.vue";
+import TileComponent from "./Tile.vue";
+import Tile, { TileConfig } from "@/interfaces/Tile";
 import { Axis } from "@/enums/Axis";
 import { ResizeDirection } from "@/enums/ResizeDirection";
+import Red from '@/components/Red.vue';
+import Blue from '@/components/Blue.vue';
 
 export interface DashboardConfig {
   gridWidth: number; // Amount of squares
   gridHeight: number;
   gapSize: number;
-  tiles: TileConfig[];
+  tiles: Tile[];
 }
 
 @Component({
   components: {
-    Tile,
+    TileComponent,
+    Red,
+    Blue
   },
 })
 export default class Dashboard extends Vue {

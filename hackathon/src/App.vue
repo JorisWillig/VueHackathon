@@ -19,18 +19,26 @@ export default class App extends Vue {
     gapSize: 8,
     tiles: [
       {
-        id: "tile1",
-        width: 5,
-        height: 5,
-        xPos: 0,
-        yPos: 3,
+        tileConfig: {
+          id: "tile1",
+          width: 5,
+          height: 5,
+          xPos: 0,
+          yPos: 3,
+        },
+        contentComponent: "Red",
+        contentData: "Hallo, ik ben rood"
       },
       {
-        id: "tile2",
-        width: 5,
-        height: 5,
-        xPos: 10,
-        yPos: 5,
+        tileConfig: {
+          id: "tile2",
+          width: 5,
+          height: 5,
+          xPos: 10,
+          yPos: 5,
+        },
+        contentComponent: "Blue",
+        contentData: "Maar ik ben blauw"
       }
     ],
   }
