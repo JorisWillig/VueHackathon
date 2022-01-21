@@ -6,17 +6,19 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { TileConfig } from "./Tile.vue";
+import Tile, { TileConfig } from "./Tile.vue";
 
 export interface DashboardConfig {
   gridWidth: number; // Amount of squares
   gridHeight: number;
-  gapsize: number;
+  gapSize: number;
   tiles: TileConfig[];
 }
 
 @Component({
-  components: {},
+  components: {
+    Tile,
+  },
 })
 export default class Dashboard extends Vue {
   @Prop() dashboardConfig!: DashboardConfig;
@@ -53,5 +55,9 @@ export default class Dashboard extends Vue {
 </script>
 
 <style lang="scss" scoped>
-
+  .dashboard {
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
 </style>

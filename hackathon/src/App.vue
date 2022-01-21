@@ -1,20 +1,40 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  </div>
+  <Dashboard :dashboardConfig="dashboardConfig"></Dashboard>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
+import Dashboard, { DashboardConfig } from '@/components/Dashboard.vue';
 
 @Component({
   components: {
-    HelloWorld,
+    Dashboard,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+
+  dashboardConfig: DashboardConfig = {
+    gridWidth: 15,
+    gridHeight: 15,
+    gapSize: 8,
+    tiles: [
+      {
+        id: "tile1",
+        width: 10,
+        height: 15,
+        xPos: 0,
+        yPos: 0,
+      },
+      {
+        id: "tile2",
+        width: 5,
+        height: 15,
+        xPos: 10,
+        yPos: 0,
+      }
+    ],
+  }
+}
 </script>
 
 <style>
@@ -25,5 +45,10 @@ export default class App extends Vue {}
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
 }
 </style>
