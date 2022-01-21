@@ -3,6 +3,7 @@
 </template>
 
 <script lang="ts">
+import { Axis } from "@/enums/Axis";
 import { Vue, Component, Prop } from "vue-property-decorator";
 
 export interface TileConfig {
@@ -17,24 +18,32 @@ export interface TileConfig {
   components: {},
 })
 export default class Tile extends Vue {
+  @Prop() config!: TileConfig;
   @Prop() resizeFunction!: () => {x: number, y: number, width: number, height: number}; // px values
   @Prop() moveFunction!: () => {x: number, y: number}
-  @Prop() gridToPx!: () => number;
+  @Prop() gridToPx!: (gridValue: number, axis: Axis) => number;
 
+  // Grid values
+  private x = this.config.xPos;
+  private y = this.config.yPos;
+  private w = this.config.width;
+  private h = this.config.height;
+
+  // pxValues
   private get xPos() {
-    return 0;
+    return this.gridToPx(this.x, Axis.X);
   }
   
   private get yPos() {
-    return 0;
+    return this.gridToPx(this.y, Axis.Y);
   }
 
   private get height() {
-    return 0;
+    return this.gridToPx(this.h, Axis.Y);
   }
 
   private get width() {
-    return 0;
+    return this.gridToPx(this.w, Axis.X);
   }
 
   private get style() {

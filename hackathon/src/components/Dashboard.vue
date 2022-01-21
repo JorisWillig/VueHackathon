@@ -1,12 +1,13 @@
 <template>
 <div class="dashboard" ref="dashboardContainer">
-  <Tile v-for="tile of dashboardConfig.tiles" :key="tile.id"></Tile>
+  <Tile v-for="tile of dashboardConfig.tiles" :key="tile.id" :config="tile"></Tile>
 </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 import Tile, { TileConfig } from "./Tile.vue";
+import { Axis } from "@/enums/Axis";
 
 export interface DashboardConfig {
   gridWidth: number; // Amount of squares
@@ -48,8 +49,13 @@ export default class Dashboard extends Vue {
     //TODO
   }
 
-  private gridToPx() {
-    //TODO
+  private gridToPx(gridValue: number, axis: Axis) {
+    switch(axis) {
+      case Axis.X:
+        return gridValue * this.squareWidth;
+      case Axis.Y:
+        return gridValue * this.squareHeight;
+     }
   }
 }
 </script>
