@@ -1,6 +1,6 @@
 <template>
 <div class="dashboard" ref="dashboardContainer">
-  <Tile v-for="tile of dashboardConfig.tiles" :key="tile.id" :config="tile" :gridToPx="gridToPx" :resizeFunction="calculateTileSize"></Tile>
+  <Tile v-for="tile of dashboardConfig.tiles" :key="tile.id" :config="tile" :moveFunction="calculateTilePosition" :gridToPx="gridToPx" :resizeFunction="calculateTileSize"></Tile>
 </div>
 </template>
 
@@ -42,8 +42,19 @@ export default class Dashboard extends Vue {
     this.calculateGridSize();
   }
 
-  private calculateTilePosition() {
-    //TODO
+  private calculateTilePosition(startGridX: number, startGridY: number, tileWidth: number, tileHeight: number, xOffset: number, yOffset: number): {x: number, y: number} {
+    const startX = this.gridToPx(startGridX, Axis.X);
+    const startY = this.gridToPx(startGridY, Axis.Y);
+
+    let gridX = this.pxToGrid(startX + xOffset, Axis.X);
+    let gridY = this.pxToGrid(startY + yOffset, Axis.Y);
+
+    gridX = gridX + tileWidth <= this.dashboardConfig.gridWidth ? gridX : this.dashboardConfig.gridWidth - tileWidth;
+    gridX = gridX >= 0 ? gridX : 0;
+    gridY = gridY + tileHeight <= this.dashboardConfig.gridHeight ? gridY : this.dashboardConfig.gridHeight - tileHeight;
+    gridY = gridY >= 0 ? gridY : 0;
+
+    return { x: gridX, y: gridY };
   }
 
   private snapToGrid(pxValue: number, gridSize: number) {
@@ -94,12 +105,21 @@ export default class Dashboard extends Vue {
     return {x: newTileX, y: newTileY, height: newHeight, width: newWidth}
   }
 
-  private gridToPx(gridValue: number, axis: Axis) {
+  private gridToPx(gridValue: number, axis: Axis): number {
     switch(axis) {
       case Axis.X:
         return gridValue * this.squareWidth;
       case Axis.Y:
         return gridValue * this.squareHeight;
+     }
+  }
+
+  private pxToGrid(px: number, axis: Axis): number {
+    switch(axis) {
+      case Axis.X:
+        return Math.floor(px / this.squareWidth);
+      case Axis.Y:
+        return Math.floor(px / this.squareHeight);
      }
   }
 }
